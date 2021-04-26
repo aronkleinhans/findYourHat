@@ -72,7 +72,7 @@ class Field {
     }
     ///simple update cycle checking for game states
     update(){
-        while (myField.lastMove != 'x' && this.isAlive && !this.won) {
+        while (this.lastMove != 'x' && this.isAlive && !this.won) {
         //comment this clear to see debug stuff
         //ˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇ
             console.clear();
