@@ -353,10 +353,11 @@ class Pathfinding {
         if ((currentNode.pos[0] + 1) < this.height){
             neighbourList.push(this.getNode(this.nodeList, [currentNode.pos[0] + 1, currentNode.pos[1]] ));
         }
+        //up
         if ((currentNode.pos[1] - 1) >= 0) {
             neighbourList.push(this.getNode(this.nodeList, [currentNode.pos[0], currentNode.pos[1] - 1] ));
         }
-        //right
+        //down
         if ((currentNode.pos[1] + 1) < this.width){
             neighbourList.push(this.getNode(this.nodeList, [currentNode.pos[0], currentNode.pos[1] + 1] ));
         }
