@@ -9,6 +9,7 @@ class Field {
     constructor(grid){
         this.width = 20;
         this.height = 20;
+        this.minPath = 15;
         this.grid = [];
         this.oGrid = [];
         this.compare = [];
@@ -30,7 +31,7 @@ class Field {
                 this.copyGrid(this.grid, this.oGrid);
                 this.copyGrid(this.grid, this.compare);
                 [...this.curPos] = [...this._startPos];
-            ////print calculated path on new grid
+            ////print calculated path on new grid for visual comaprison
                 for(let i = 0; i < test.length - 1; i++){
                     console.log(test[i])
                     console.log(test[i].pos[0])
@@ -42,7 +43,7 @@ class Field {
                 this.update();                
         }
     }
-
+    ///copies grids
     copyGrid(base, target){
         let x = [];
 
@@ -54,18 +55,22 @@ class Field {
             x = [];
         }
     }
-
+    ///generates & tests grids until it finds a playable one
+    ////returns a walkable path path
     genAndTestMap(){
         let test = null;
-        while(test === null) {
+        let ok = false
+        while(test === null && !ok) {
             this.generateField();
 
             let pf = new Pathfinding(this);
-            test = pf.findPath() 
+            test = pf.findPath()
         }
+        if(test.length < this.minPath) test = this.genAndTestMap();
         console.log('test path length is: ' + test.length)
         return test;
     }
+    ///simple update cycle checking for game states
     update(){
         while (myField.lastMove != 'x' && this.isAlive && !this.won) {
         //comment this to see debug stuff
@@ -79,7 +84,7 @@ class Field {
             this.restart();
         }
     }
-
+    ///prints grid maps
     print(grid){
         grid[this.curPos[0]][this.curPos[1]] = pathCharacter;
 
@@ -88,7 +93,7 @@ class Field {
             console.log(grid[row].join(''));
         }
     }
-
+    ///this handles user input and player state
     playerMovement(){
         console.log('startPos:');
         console.log(this._startPos);
@@ -149,7 +154,7 @@ class Field {
         }
         
     }
-
+    // restarts game based on state(retry on death, new map on win)
     restart() {
         console.clear();
         this.curPos = [];
@@ -182,6 +187,7 @@ class Field {
             }
         }
     }   
+    ///generates grid map
     generateField(){
         let arr = [];
         let tile = "";
@@ -220,6 +226,7 @@ class Field {
         while (!gotHat) {
             let x = Math.floor(Math.random() * this.width);
             let y = Math.floor(Math.random() * this.height);
+
             if(newGrid[x][y] === pathCharacter){
                 continue;
             }
