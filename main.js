@@ -9,7 +9,7 @@ class Field {
     constructor(grid){
         this.width = 20;
         this.height = 20;
-        this.minPath = 15;
+        this.minPath = Math.floor((this.width + this.height) / 3);
         this.grid = [];
         this.oGrid = [];
         this.compare = [];
@@ -24,22 +24,22 @@ class Field {
     start(){
         console.clear();
         const notice = prompt('Welcome to Hatfinder! \n \nUse these for movement: \n  w - up \n  a - left \n  s - down \n  d - right \n  x - to exit \npress enter to continue...');
-        let test = this.genAndTestMap();
+        let test = this.generateAndTestMap();
 
             if( test != null){
-                console.log('after test')
+                /* console.log('after test') */
                 this.copyGrid(this.grid, this.oGrid);
                 this.copyGrid(this.grid, this.compare);
                 [...this.curPos] = [...this._startPos];
             ////print calculated path on new grid for visual comaprison
-                for(let i = 0; i < test.length - 1; i++){
+/*                 for(let i = 0; i < test.length - 1; i++){
                     console.log(test[i])
                     console.log(test[i].pos[0])
                     this.compare[test[i].pos[0]][test[i].pos[1]] = ' '
                 }
                 this.print(this.compare);
-
-                console.log('--------------------------')
+                console.log('minimum path length: ' + this.minPath)
+                console.log('--------------------------') */
                 this.update();                
         }
     }
@@ -57,7 +57,7 @@ class Field {
     }
     ///generates & tests grids until it finds a playable one
     ////returns a walkable path path
-    genAndTestMap(){
+    generateAndTestMap(){
         let test = null;
         let ok = false
         while(test === null && !ok) {
@@ -66,8 +66,8 @@ class Field {
             let pf = new Pathfinding(this);
             test = pf.findPath()
         }
-        if(test.length < this.minPath) test = this.genAndTestMap();
-        console.log('test path length is: ' + test.length)
+        if(test.length < this.minPath) test = this.generateAndTestMap();
+        /* console.log('test path length is: ' + test.length) */
         return test;
     }
     ///simple update cycle checking for game states
@@ -95,13 +95,13 @@ class Field {
     }
     ///this handles user input and player state
     playerMovement(){
-        console.log('startPos:');
+/*         console.log('startPos:');
         console.log(this._startPos);
         console.log(`curPos: ${this.curPos}`);
         console.log(`grid height: ${this.grid.length}`);
         console.log(`grid width: ${this.grid[0].length}`);
         console.log('isAlive: '+ this.isAlive);
-        console.log('won: '+ this.won);
+        console.log('won: '+ this.won); */
 
         this.isAlive = true;
     
@@ -177,7 +177,7 @@ class Field {
         }
         else if (ans === 'y' && this.won) {
             this.won = false;
-            let test = this.genAndTestMap();
+            let test = this.generateAndTestMap();
 
             if(test != null) {
                 this.oGrid = [];
@@ -271,23 +271,23 @@ class Pathfinding {
         //find end node in list
         
         let endNode = this.getNode(this.nodeList, this.field._endPos);
-        console.log('end pos & node')
+/*         console.log('end pos & node')
         console.log(this.field._endPos)
-        console.log(endNode)
+        console.log(endNode) */
         //set costs
         startNode.gCost = 0;
         startNode.hCost = this.calculateDistance(startNode, endNode);
         startNode.calculateFCost();
         //add startnode to open list
         this.openList.push(startNode);
-        console.log('openList:')
-        console.log(this.openList)
+/*         console.log('openList:')
+        console.log(this.openList) */
         
         while(this.openList.length > 0) {
             let currentNode = this.getLowestFCostNode(this.openList);
-            console.log('--------------------------------current & end')
+/*             console.log('--------------------------------current & end')
             console.log(currentNode)
-            console.log(endNode)
+            console.log(endNode) */
             if (currentNode === endNode) {
                 return this.calculatePath(endNode);
             }
@@ -295,7 +295,7 @@ class Pathfinding {
             let idx = this.openList.indexOf(currentNode);
             if(idx != -1){
                 this.openList.splice(idx, 1);
-                console.log('items on open list: ' + this.openList.length)
+/*                 console.log('items on open list: ' + this.openList.length) */
                 this.closedList.push(currentNode);
             }
             //iterate through neighbour nodes
@@ -307,7 +307,7 @@ class Pathfinding {
                 }
                 //check if this is in closed list, if yes skip it...
                 if(this.closedList.indexOf(neighbourNode) != -1) {
-                    console.log('>>>>>>>>>>>>>>>>>>>>>>not in closed')
+/*                     console.log('>>>>>>>>>>>>>>>>>>>>>>not in closed') */
                     continue;
                 }
 
@@ -320,17 +320,17 @@ class Pathfinding {
                     neighbourNode.hCost = this.calculateDistance(neighbourNode, endNode);
                     neighbourNode.calculateFCost();
 
-                    console.log('>>>>>>>>>>>>>>>>>>>>>>after tentative cost calc')
+/*                     console.log('>>>>>>>>>>>>>>>>>>>>>>after tentative cost calc')
                     console.log(neighbourNode)
                     console.log(neighbourNode.cameFromNode === currentNode)
-                    console.log(this.openList.indexOf(neighbourNode))
+                    console.log(this.openList.indexOf(neighbourNode)) */
                     //check open list & add the neighbour if not present
                     if(this.openList.indexOf(neighbourNode) === -1){
-                        console.log('>>>>>>>>>>>>>>>>>>>>>>not in open')
+/*                         console.log('>>>>>>>>>>>>>>>>>>>>>>not in open') */
                         this.openList.push(neighbourNode);
 
                     }
-                    console.log('>>>>>>>>>>>>>>>>>>>>>>openList')
+/*                     console.log('>>>>>>>>>>>>>>>>>>>>>>openList') */
                     console.log(this.openList.length)
                 }
             }
@@ -340,8 +340,8 @@ class Pathfinding {
     }
     getNeighbourList(currentNode){
         let neighbourList = [];
-        console.log('nb search current: ')
-        console.log(currentNode)
+/*         console.log('nb search current: ')
+        console.log(currentNode) */
         //left
         if ((currentNode.pos[0] - 1) >= 0) {
             neighbourList.push(this.getNode(this.nodeList, [currentNode.pos[0] - 1, currentNode.pos[1]] ));
@@ -360,13 +360,12 @@ class Pathfinding {
         return neighbourList;
     }
     getNode(nodeList, targetPos){
-        console.log(targetPos)
-        console.log('getting node...')
+/*         console.log(targetPos)
+        console.log('getting node...') */
         let node;
         for (let i = 0; i < nodeList.length; i++){
             if (nodeList[i].pos[0] === targetPos[0] && nodeList[i].pos[1] === targetPos[1]) {
                 node = nodeList[i];
-                console.log('gotem')
             }       
         }
         return node;
