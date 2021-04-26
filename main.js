@@ -27,7 +27,7 @@ class Field {
         let test = this.generateAndTestMap();
 
             if( test != null){
-                /* console.log('after test') */
+/*              console.log('after test') */
                 this.copyGrid(this.grid, this.oGrid);
                 this.copyGrid(this.grid, this.compare);
                 [...this.curPos] = [...this._startPos];
@@ -330,8 +330,8 @@ class Pathfinding {
                         this.openList.push(neighbourNode);
 
                     }
-/*                     console.log('>>>>>>>>>>>>>>>>>>>>>>openList') */
-                    console.log(this.openList.length)
+/*                     console.log('>>>>>>>>>>>>>>>>>>>>>>openList') 
+                    console.log(this.openList.length)*/
                 }
             }
         }
