@@ -89,7 +89,7 @@ class Field {
     ///prints grid maps
     print(grid){
         grid[this.curPos[0]][this.curPos[1]] = pathCharacter;
-        
+
         console.log('wins: ' + this.wins);
         for (let row in grid){
             console.log(grid[row].join(''));
@@ -387,7 +387,7 @@ class Pathfinding {
     calculateDistance(a, b){
         let xDistance = Math.abs(a.pos[0] - b.pos[0]);
         let yDistance = Math.abs(a.pos[1] - b.pos[1]);
-        let remaining = Math.abs(xDistance - yDistance);
+        //let remaining = Math.abs(xDistance - yDistance);
         //manhattan distance
         return this.STRAIGHT_COST * (xDistance + yDistance);
     }
