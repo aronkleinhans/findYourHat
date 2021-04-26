@@ -6,7 +6,7 @@ const fieldCharacter = '░';
 const pathCharacter = '*';
 
 class Field {
-    constructor(grid){
+    constructor(){
         this.width = 20;
         this.height = 20;
         this.minPath = Math.floor((this.width + this.height) / 3);
@@ -320,7 +320,7 @@ class Pathfinding {
                     neighbourNode.hCost = this.calculateDistance(neighbourNode, endNode);
                     neighbourNode.calculateFCost();
 
-/*                     console.log('>>>>>>>>>>>>>>>>>>>>>>after tentative cost calc')
+/*                  console.log('>>>>>>>>>>>>>>>>>>>>>>after tentative cost calc')
                     console.log(neighbourNode)
                     console.log(neighbourNode.cameFromNode === currentNode)
                     console.log(this.openList.indexOf(neighbourNode)) */
@@ -412,22 +412,8 @@ class PathNode {
     calculateFCost(){
         this.fCost = this.gCost + this.hCost;
     }
-
 }
 
-
-const field = [
-    ['O', '░', 'O', '░', 'O', '░', 'O', '░', '░', 'O', '░'],
-    ['░', 'O', '░', '░', 'O', '░', 'O', '░', '░', 'O', '░'],
-    ['░', '^', '░','░', 'O', '░', 'O', '░', '░', 'O', '░'],
-    ['░', 'O', '░', '░', 'O', '░', 'O', '░', '░', 'O', '░'],
-    ['░', '^', '░','░', 'O', '░', 'O', '░', '░', 'O', '░']
-    ];
-
-
-
-const myField = new Field(field);
-
-
-
-myField.start();
+//instantiate and start game
+const newGame = new Field();
+newGamew.start();
