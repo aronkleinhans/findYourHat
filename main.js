@@ -20,6 +20,7 @@ class Field {
         this.isAlive = true;
         this.won = false;
         this.wins = 0;
+        this.lives = 3;
     }
 
     start(){
@@ -88,7 +89,7 @@ class Field {
     ///prints grid maps
     print(grid){
         grid[this.curPos[0]][this.curPos[1]] = pathCharacter;
-
+        
         console.log('wins: ' + this.wins);
         for (let row in grid){
             console.log(grid[row].join(''));
