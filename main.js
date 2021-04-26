@@ -19,6 +19,7 @@ class Field {
         this.lastMove = '';
         this.isAlive = true;
         this.won = false;
+        this.wins = 0;
     }
 
     start(){
@@ -88,7 +89,7 @@ class Field {
     print(grid){
         grid[this.curPos[0]][this.curPos[1]] = pathCharacter;
 
-
+        console.log('wins: ' + this.wins);
         for (let row in grid){
             console.log(grid[row].join(''));
         }
@@ -151,6 +152,7 @@ class Field {
         }
         else if(this.grid[this.curPos[0]][this.curPos[1]] === '^'){
             this.won = true;
+            this.wins++
         }
         
     }
