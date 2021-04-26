@@ -416,4 +416,4 @@ class PathNode {
 
 //instantiate and start game
 const newGame = new Field();
-newGamew.start();
+newGame.start();
