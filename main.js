@@ -73,9 +73,9 @@ class Field {
     ///simple update cycle checking for game states
     update(){
         while (myField.lastMove != 'x' && this.isAlive && !this.won) {
-        //comment this to see debug stuff
+        //comment this clear to see debug stuff
         //ˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇ
-        //    console.clear();
+            console.clear();
             this.print(this.grid);
             this.playerMovement();
         }
