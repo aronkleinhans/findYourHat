@@ -148,10 +148,10 @@ class Field {
             this.isAlive = false;
         }
         
-        else if(this.grid[this.curPos[0]][this.curPos[1]] === '0'){
+        else if(this.grid[this.curPos[0]][this.curPos[1]] === hole){
             this.isAlive = false;
         }
-        else if(this.grid[this.curPos[0]][this.curPos[1]] === '^'){
+        else if(this.grid[this.curPos[0]][this.curPos[1]] === hat){
             this.won = true;
             this.wins++
         }
@@ -263,7 +263,7 @@ class Pathfinding {
                 pathNode.calculateFCost();
                 pathNode.cameFromNode = null;
                 
-                this.field.grid[x][y] === '0' ? pathNode.isWalkable = false : pathNode.isWalkable = true;
+                this.field.grid[x][y] === hole ? pathNode.isWalkable = false : pathNode.isWalkable = true;
                 
                 this.nodeList.push(pathNode);
             }
