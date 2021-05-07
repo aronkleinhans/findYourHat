@@ -10,4 +10,4 @@ Another codecademy project!
 * add randomized start and end nodes
 * I also added A* pathfinding as an extra; not perfect, not the most efficient, but it finds a way!
 
-(it was hard, but rewarding)
+(it was a hard, but rewarding project)

@@ -7,8 +7,8 @@ const pathCharacter = '*';
 
 class Field {
     constructor(){
-        this.width = 20;
-        this.height = 20;
+        this.width = 100;
+        this.height = 100;
         this.minPath = Math.floor((this.width + this.height) / 3);
         this.grid = [];
         this.oGrid = [];
