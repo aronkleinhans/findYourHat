@@ -7,12 +7,11 @@ const pathCharacter = '*';
 
 class Field {
     constructor(){
-        this.width = 100;
-        this.height = 100;
-        this.minPath = Math.floor((this.width + this.height) / 3);
+        this.width = 25;
+        this.height = 25;
+        this.minPath = Math.floor((this.width + this.height) / 2);
         this.grid = [];
         this.oGrid = [];
-        this.compare = [];
         this._startPos = [];
         this._endPos = [];
         this.curPos = [0, 0];
@@ -29,19 +28,8 @@ class Field {
         let test = this.generateAndTestMap();
 
             if( test != null){
-/*              console.log('after test') */
                 this.copyGrid(this.grid, this.oGrid);
-                this.copyGrid(this.grid, this.compare);
                 [...this.curPos] = [...this._startPos];
-            ////print calculated path on new grid for visual comaprison
-/*                 for(let i = 0; i < test.length - 1; i++){
-                    console.log(test[i])
-                    console.log(test[i].pos[0])
-                    this.compare[test[i].pos[0]][test[i].pos[1]] = ' '
-                }
-                this.print(this.compare);
-                console.log('minimum path length: ' + this.minPath)
-                console.log('--------------------------') */
                 this.update();                
         }
     }
@@ -57,8 +45,8 @@ class Field {
             x = [];
         }
     }
-    ///generates & tests grids until it finds a playable one
-    ////returns a walkable path path
+    //generates & tests grids until it finds a playable one
+    //returns a walkable path path
     generateAndTestMap(){
         let test = null;
         let ok = false
@@ -69,14 +57,11 @@ class Field {
             test = pf.findPath()
         }
         if(test.length < this.minPath) test = this.generateAndTestMap();
-        /* console.log('test path length is: ' + test.length) */
         return test;
     }
-    ///simple update cycle checking for game states
+    //simple update cycle checking for game states
     update(){
         while (this.lastMove != 'x' && this.isAlive && !this.won) {
-        //comment this clear to see debug stuff
-        //ˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇˇ
             console.clear();
             this.print(this.grid);
             this.playerMovement();
@@ -86,7 +71,7 @@ class Field {
             this.restart();
         }
     }
-    ///prints grid maps
+    //prints grid maps
     print(grid){
         grid[this.curPos[0]][this.curPos[1]] = pathCharacter;
 
@@ -95,15 +80,8 @@ class Field {
             console.log(grid[row].join(''));
         }
     }
-    ///this handles user input and player state
+    //this handles user input and player state
     playerMovement(){
-/*         console.log('startPos:');
-        console.log(this._startPos);
-        console.log(`curPos: ${this.curPos}`);
-        console.log(`grid height: ${this.grid.length}`);
-        console.log(`grid width: ${this.grid[0].length}`);
-        console.log('isAlive: '+ this.isAlive);
-        console.log('won: '+ this.won); */
 
         this.isAlive = true;
     
@@ -130,7 +108,7 @@ class Field {
             default : {
             }
         }
-
+        //out of bounds kills player
         if(this.curPos[0] < 0){
             this.curPos[0] += 1;
             this.isAlive = false;
@@ -148,16 +126,18 @@ class Field {
             this.isAlive = false;
         }
         
+        //holes too
         else if(this.grid[this.curPos[0]][this.curPos[1]] === hole){
             this.isAlive = false;
         }
+        //hat wins
         else if(this.grid[this.curPos[0]][this.curPos[1]] === hat){
             this.won = true;
             this.wins++
         }
         
     }
-    // restarts game based on state(retry on death, new map on win)
+    // restarts game based on player state(retry on death, new map on win)
     restart() {
         console.clear();
         this.curPos = [];
@@ -190,7 +170,7 @@ class Field {
             }
         }
     }   
-    ///generates grid map
+    //generates grid map
     generateField(){
         let arr = [];
         let tile = "";
@@ -272,25 +252,18 @@ class Pathfinding {
         let startNode = new PathNode(this.field._startPos);
 
         //find end node in list
-        
         let endNode = this.getNode(this.nodeList, this.field._endPos);
-/*         console.log('end pos & node')
-        console.log(this.field._endPos)
-        console.log(endNode) */
+
         //set costs
         startNode.gCost = 0;
         startNode.hCost = this.calculateDistance(startNode, endNode);
         startNode.calculateFCost();
         //add startnode to open list
         this.openList.push(startNode);
-/*         console.log('openList:')
-        console.log(this.openList) */
         
         while(this.openList.length > 0) {
             let currentNode = this.getLowestFCostNode(this.openList);
-/*             console.log('--------------------------------current & end')
-            console.log(currentNode)
-            console.log(endNode) */
+
             if (currentNode === endNode) {
                 return this.calculatePath(endNode);
             }
@@ -298,7 +271,7 @@ class Pathfinding {
             let idx = this.openList.indexOf(currentNode);
             if(idx != -1){
                 this.openList.splice(idx, 1);
-/*                 console.log('items on open list: ' + this.openList.length) */
+
                 this.closedList.push(currentNode);
             }
             //iterate through neighbour nodes
@@ -310,7 +283,7 @@ class Pathfinding {
                 }
                 //check if this is in closed list, if yes skip it...
                 if(this.closedList.indexOf(neighbourNode) != -1) {
-/*                     console.log('>>>>>>>>>>>>>>>>>>>>>>not in closed') */
+
                     continue;
                 }
 
@@ -323,18 +296,10 @@ class Pathfinding {
                     neighbourNode.hCost = this.calculateDistance(neighbourNode, endNode);
                     neighbourNode.calculateFCost();
 
-/*                  console.log('>>>>>>>>>>>>>>>>>>>>>>after tentative cost calc')
-                    console.log(neighbourNode)
-                    console.log(neighbourNode.cameFromNode === currentNode)
-                    console.log(this.openList.indexOf(neighbourNode)) */
                     //check open list & add the neighbour if not present
                     if(this.openList.indexOf(neighbourNode) === -1){
-/*                         console.log('>>>>>>>>>>>>>>>>>>>>>>not in open') */
                         this.openList.push(neighbourNode);
-
                     }
-/*                     console.log('>>>>>>>>>>>>>>>>>>>>>>openList') 
-                    console.log(this.openList.length)*/
                 }
             }
         }
@@ -343,8 +308,7 @@ class Pathfinding {
     }
     getNeighbourList(currentNode){
         let neighbourList = [];
-/*         console.log('nb search current: ')
-        console.log(currentNode) */
+
         //left
         if ((currentNode.pos[0] - 1) >= 0) {
             neighbourList.push(this.getNode(this.nodeList, [currentNode.pos[0] - 1, currentNode.pos[1]] ));
@@ -364,8 +328,6 @@ class Pathfinding {
         return neighbourList;
     }
     getNode(nodeList, targetPos){
-/*         console.log(targetPos)
-        console.log('getting node...') */
         let node;
         for (let i = 0; i < nodeList.length; i++){
             if (nodeList[i].pos[0] === targetPos[0] && nodeList[i].pos[1] === targetPos[1]) {
@@ -388,8 +350,7 @@ class Pathfinding {
     calculateDistance(a, b){
         let xDistance = Math.abs(a.pos[0] - b.pos[0]);
         let yDistance = Math.abs(a.pos[1] - b.pos[1]);
-        //let remaining = Math.abs(xDistance - yDistance);
-        //manhattan distance
+        //using manhattan distance (4 directions, no diagonal movement)
         return this.STRAIGHT_COST * (xDistance + yDistance);
     }
     getLowestFCostNode(nodeList){
