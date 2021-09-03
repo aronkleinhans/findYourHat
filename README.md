@@ -9,4 +9,4 @@ In this project, I built an interactive terminal game. The scenario is that the 
 * add randomized start and end nodes
 * I also added A* pathfinding as an extra; not perfect, not the most efficient, but it finds a way!
 
-[repl.it](https://replit.com/@AronKleinhans/findYourHat)
+Here's a link to [repl.it](https://replit.com/@AronKleinhans/findYourHat)
