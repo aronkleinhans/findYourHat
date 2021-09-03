@@ -1,5 +1,4 @@
 # findYourHat
-Another codecademy project!
 
 ## Overview
 
